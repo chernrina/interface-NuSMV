@@ -1,0 +1,181 @@
+.main-header {
+  height: 100px;
+  background: #4D7E9A;
+}
+
+.container {
+  width: 1025px;
+  margin: 0 auto;
+  padding: 0 10px;
+  /background:red;
+}
+
+.main-info {
+  margin-top:200px;
+}
+
+.header-top {
+  font-size: 20px;
+  display: flex;
+  justify-content: flex-end;
+  padding-top:35px;
+}
+
+.header-top .btn-header {
+  text-decoration: none;
+  color:white;
+  outline: none;
+  border: none;
+  color:white;
+  background: transparent;
+  font-size: 20px;
+}
+
+.btn-header a {
+  text-decoration: none;
+  color:white;
+}
+
+.btn-header:hover {
+  text-decoration: underline; 
+} 
+
+.main-body {
+  min-height: 450px;
+}
+
+.main-title {
+  height:160px;
+  width:510px;
+  font-size:35px;
+  text-align: center;
+  color:#4D7E9A;
+}
+
+.btn-start {
+  height: 80px;
+  width:400px;  
+  margin-left:50px;
+  border: none;
+  background: #4D7E9A85;
+  border-radius: 20px;
+  font-size: 20px;
+  text-decoration: none;
+  color:white;
+  outline: none;
+}
+
+.btn-start:hover {
+  text-decoration: underline; 
+} 
+
+.btn-start a {
+  text-decoration: none;
+  color:white;
+}
+
+
+
+.logo {
+  /background:red;
+  background-image: url("logo.png");
+  background-repeat: no-repeat;
+  height:190px;
+  width:440px;
+  background-size: contain;
+  float:right;
+  margin-top:-200px;
+  margin-left: 400px;
+ }
+
+.main-footer {
+  height: 50px;
+  background:#4D7E9A;
+}
+
+.body {
+  display:flex;
+  flex-direction: row;
+
+}
+
+.body-side {
+  width:300px;
+  height: auto;
+  background: white;
+}
+
+.body-center {
+  width:825px;
+  min-height: 650px;
+  background: #4D7E9A30;
+  
+}
+
+.projects-area {
+  margin-left: 50px;
+  width:725px;
+  /background: red;
+  height:auto;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.project {
+  width:120px;
+  height: 120px;
+  margin: 30px 30px;
+  background: white;
+  border: none;
+  border-radius: 10px;
+}
+
+.project-name {
+  color:black;
+  font-size: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 100px;
+}
+
+.user-photo {
+  background-image: url("user-photo.png");
+  background-repeat: no-repeat;
+  height:150px;
+  width:150px;
+  background-size: contain;
+  margin-left: 70px;
+  margin-top: 50px;
+}
+
+.user-name {
+  margin-top: 10px;
+  font-size: 20px;
+  margin-left: 100px;
+}
+
+.btn-new-project {
+  height: 70px;
+  width:225px;  
+  margin-left:35px;
+  margin-top: 30px;
+  border: none;
+  background: #4D7E9A85;
+  border-radius: 20px;
+  font-size: 20px;
+  text-decoration: none;
+  color:white;
+  outline: none;
+}
+
+.btn-new-project:hover {
+  text-decoration: underline; 
+} 
+
+h3 {
+  color:red;
+}

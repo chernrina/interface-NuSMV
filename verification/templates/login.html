@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+
+</head>
+<style>
+
+  .btn {
+    margin-top:20px;
+    background-color: #4D7E9A;
+  }
+
+  .container {
+    width: 1025px;
+    margin: 0 auto;
+    padding: 0 10px;
+   / background:red;
+  }
+  
+  .main-header {
+    margin: 0 -200px;
+    padding:0;
+    height: 50px;
+    background: #4D7E9A;
+  }
+
+</style>
+
+<body class="container">
+  <header class="main-header">
+         
+  </header>
+
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="row" style="margin-bottom:300px;margin-top:180px;">
+	<div class="col-md-6 offset-md-3">
+	<h3 class="text-center">Authorization</h3>
+	<hr>
+	<form action="" method="POST" class="search-input">
+		{% csrf_token %}
+		{{ form|crispy }}
+		<input type="submit" class="btn btn-primary" value="Login">
+	</form>
+	</div>
+</div>
+
+{% endblock %}
+
+
+</body>
+</html>
+
+
