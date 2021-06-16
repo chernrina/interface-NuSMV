@@ -83,21 +83,23 @@ class getProjectViewSet(viewsets.ModelViewSet):
     @method_decorator(csrf_protect)
     def post(self, request, *args, **kwargs):
         data = request.data
-        queryset = Projects.objects.filter(title=data['title']).filter(author=data['author']).first()
-        if queryset:
-            queryset.input_file = data['input_file']
-            queryset.save()
-        else:
-            user = User.objects.filter(id=data['author']).first()
-            newProject = Projects.objects.create(title=data['title'],author=user,input_file=data['input_file'],output_file=data['output_file'])
-            newProject.save()
+        userId = User.objects.filter(id=data['author']).first()
+        if userId and str(request.user) == userId.username and request.user.is_authenticated:
+            queryset = Projects.objects.filter(title=data['title']).filter(author=data['author']).first()
+            if queryset:
+                queryset.input_file = data['input_file']
+                queryset.save()
+            else:
+                user = User.objects.filter(id=data['author']).first()
+                newProject = Projects.objects.create(title=data['title'],author=user,input_file=data['input_file'],output_file=data['output_file'])
+                newProject.save()
         return Response([])
 
 @api_view(('POST',))
 def create_smv_file(request,username,projectname):
     params = request.data
     userId = User.objects.filter(username=username).first()
-    if userId:
+    if userId and str(request.user) == userId.username and request.user.is_authenticated:
         queryset = Projects.objects.filter(author=userId).filter(title=projectname).first()
         if queryset:
             condition = {}
@@ -199,11 +201,10 @@ def create_smv_file(request,username,projectname):
 
 @api_view(('POST',))
 def launch(request):
-    checkProcesses()
     user = request.data['user']
     project = request.data['project']
     userId = User.objects.filter(username=user).first()
-    if userId:
+    if userId and str(request.user) ==userId.username and request.user.is_authenticated:
         query = Projects.objects.filter(author=userId).get(title=project)
         file = query.input_file
         filename = 'projects\\' + user + project + 'input.smv'
@@ -214,13 +215,12 @@ def launch(request):
             f.write(file)
         try:
             ans = subprocess.check_output(["nusmv", filename],shell=True, stderr=subprocess.STDOUT).decode()
-            #time.sleep(10)
         except subprocess.CalledProcessError as e:
             os.remove(filename)
             find = re.findall(r'(line.*\n)',e.stdout.decode())
             return Response({"text":"Error code: {} {}".format(e.returncode,find[0]),"structure":[]})
 
-        res,data = visualization(ans)
+        res,data = getVisualization(ans)
 
         query.output_file = res
         current_time = datetime.now().strftime("%d-%m-%Y %H:%M")
@@ -237,12 +237,12 @@ def checkProcesses():
 
 
 @api_view(('POST',))
-def getVisualization(request):
+def visualization(request):
     data = request.data['data']
-    res,ans = visualization(data)
+    res,ans = getVisualization(data)
     return Response(ans)
 
-def visualization(text):
+def getVisualization(text):
     ans = []
     counter_examples = re.findall(r'--(([^--].+\n)+)',text)
     res=""
@@ -298,17 +298,16 @@ def visualization(text):
 
 @api_view(('POST',))
 def parse_smv_file(request):
-    try:
-        username1 = request.data['user']
-        projectname1 = request.data['project']
-    except:
-        return Response("Not found params",status=status.HTTP_404_NOT_FOUND)
-    userId = User.objects.filter(username=username1).first()
+    username = request.data['user']
+    projectname = request.data['project']
+    userId = User.objects.filter(username=username).first()
     file = ""
-    if userId:
-        queryset = Projects.objects.filter(author=userId).get(title=projectname1)
+    if userId and str(request.user) == userId.username and request.user.is_authenticated:
+        queryset = Projects.objects.filter(author=userId).get(title=projectname)
         file = queryset.input_file
-    if file == "":
+        if file == "":
+            return Response([])
+    else:
         return Response([])
     moduls = [{
         "name": "main",
@@ -423,13 +422,6 @@ def parse_smv_file(request):
                                 ind = params.index(param_elem)
                                 params_module[-1]["params"].append({"ind": ind,'var': {'name': param_elem, 'type': '', 'value': '', 'assign': []}})
 
-
-
-                        #for module in moduls:
-                         #   for var in module["var"]:
-                          #      if var["name"] in params:
-                           #         ind = params.index(var["name"])
-                            #        params_module[-1]["params"].append({"ind": ind,"var":var})
                 elif options[1].find("boolean") != -1:
                     ans["type"] = "boolean"
                     ans["value"] = ""
